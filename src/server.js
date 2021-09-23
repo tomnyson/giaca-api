@@ -1,3 +1,4 @@
+import "regenerator-runtime/runtime";
 import express from "express";
 import { extractData } from "./helper/crawl";
 import { setCache, getCacheServer } from "./middeware";
