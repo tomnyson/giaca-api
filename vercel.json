@@ -1,15 +1,17 @@
 {
   "version": 2,
+  "name": "api",
   "builds": [
     {
-      "src": "./public/server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
+      "src": "src/**/*.js",
+      "use": "@now/node",
+      "config": {
+        "maxLambdaSize": "50mb"
+      }
+    },
     {
-      "src": "/(.*)",
-      "dest": "/"
+      "src": "package.json",
+      "use": "@now/next"
     }
   ]
 }
