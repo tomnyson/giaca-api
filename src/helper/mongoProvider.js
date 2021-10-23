@@ -2,7 +2,8 @@
 import mongoose from "mongoose";
 
 //Set up default mongoose connection
-const mongoDB = "mongodb://127.0.0.1/coffee-track";
+const mongoDB =
+  "mongodb+srv://admin:EYto2GeLx5v10Kb8@cluster0.god2i.mongodb.net/coffee?retryWrites=true&w=majority";
 mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
