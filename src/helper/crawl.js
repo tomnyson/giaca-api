@@ -131,8 +131,7 @@ export const getPriceGold = async (date) => {
 
 export const getPriceCurrency = async (date) => {
   const browser = await puppeteer.launch({
-    headless: true,
-    args: ["--no-sandbox"],
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
   const page = await browser.newPage();
   await page.goto(
@@ -205,8 +204,7 @@ export const getPost = async (type = "coffee", currentPage = 1) => {
   let data = [];
   if (type === "coffee") {
     const browser = await puppeteer.launch({
-      headless: true,
-      args: ["--no-sandbox"],
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
     await page.goto(
