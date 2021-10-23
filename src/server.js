@@ -12,6 +12,8 @@ import cors from "cors";
 import "./helper/mongoProvider";
 import { startCronJob } from "./cronJob/cronJob";
 
+require("dotenv").config();
+
 const app = express();
 app.use(cors());
 const port = process.env.PORT || "8080";
