@@ -1,9 +1,10 @@
 //Import the mongoose module
 import mongoose from "mongoose";
 
+require("dotenv").config();
+
 //Set up default mongoose connection
-const mongoDB =
-  "mongodb+srv://admin:EYto2GeLx5v10Kb8@cluster0.god2i.mongodb.net/coffee?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB;
 mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
