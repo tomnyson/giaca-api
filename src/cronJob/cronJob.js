@@ -16,14 +16,14 @@ import CurrencyModel from "../models/currency.model";
 import FoodModel from "../models/food.model";
 import PostModel from "../models/post.model";
 import { pushMessage } from "../helper/notificationProvider";
-
-const crawlerReport = async () => {
+import isEmpty from "lodash/isEmpty";
+export const crawlerReport = async () => {
   try {
     console.log("call crawlerReport");
     const arrDate = await getListDate();
     const listPice = [];
     for (let i = 0; i < arrDate.length; i++) {
-      await sleep(50);
+      await sleep(5);
       const currentDate = await getPriceByDate(arrDate[i]);
       currentDate.pop();
       listPice.push({
@@ -35,36 +35,38 @@ const crawlerReport = async () => {
       const filter = {
         dateTrack: item.dateTrack,
       };
-      await PriceModel.findOneAndUpdate(
-        filter,
-        {
-          dateTrack: item.dateTrack,
-          coffeeDaklak: item.prices[0].price,
-          coffeeDaklakChange: item.prices[0].change,
-          coffeeLamDong: item.prices[1].price,
-          coffeeLamDongChange: item.prices[1].change,
-          coffeeGiaLai: item.prices[2].price,
-          coffeeGiaLaiChange: item.prices[2].change,
-          coffeeDakNong: item.prices[3].price,
-          coffeeDakNongChange: item.prices[3].change,
-          hotieu: item.prices[4].price,
-          hotieuChange: item.prices[4].change,
-          usdVnd: item.prices[5].price,
-          usdVndChange: item.prices[5].change,
-          createDate: Date.now(),
-        },
-        {
-          new: true,
-          upsert: true, // Make this update into an upsert
-        },
-      );
+      if (item && !isEmpty(item.prices)) {
+        await PriceModel.findOneAndUpdate(
+          filter,
+          {
+            dateTrack: item.dateTrack,
+            coffeeDaklak: item.prices[0].price,
+            coffeeDaklakChange: item.prices[0].change,
+            coffeeLamDong: item.prices[1].price,
+            coffeeLamDongChange: item.prices[1].change,
+            coffeeGiaLai: item.prices[2].price,
+            coffeeGiaLaiChange: item.prices[2].change,
+            coffeeDakNong: item.prices[3].price,
+            coffeeDakNongChange: item.prices[3].change,
+            hotieu: item.prices[4].price,
+            hotieuChange: item.prices[4].change,
+            usdVnd: item.prices[5].price,
+            usdVndChange: item.prices[5].change,
+            createDate: Date.now(),
+          },
+          {
+            new: true,
+            upsert: true, // Make this update into an upsert
+          },
+        );
+      }
     }
   } catch (err) {
     throw err;
   }
 };
 
-const crawlerPepper = async () => {
+export const crawlerPepper = async () => {
   try {
     console.log("call crawlerPepper");
     const data = await getPricePepper();
@@ -88,7 +90,7 @@ const crawlerPepper = async () => {
   }
 };
 
-const crawlerGold = async () => {
+export const crawlerGold = async () => {
   try {
     console.log("call crawlerGold");
     const data = await getPriceGold();
@@ -113,7 +115,7 @@ const crawlerGold = async () => {
   }
 };
 
-const crawlerCurrency = async () => {
+export const crawlerCurrency = async () => {
   try {
     console.log("call crawlerCurrency");
     const data = await getPriceCurrency();
@@ -138,7 +140,7 @@ const crawlerCurrency = async () => {
   }
 };
 
-const crawlerFood = async () => {
+export const crawlerFood = async () => {
   try {
     console.log("call crawlerFood");
     const arrType = [1, 2];
@@ -182,9 +184,8 @@ const crawlerFood = async () => {
   }
 };
 
-const crawlerPost = async () => {
+export const crawlerPost = async () => {
   try {
-    console.log("call crawlerPost");
     const arrType = ["coffee", "pepper", "gold"];
 
     for (let i = 0; i < arrType.length; i++) {

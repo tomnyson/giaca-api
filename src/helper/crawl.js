@@ -102,7 +102,9 @@ export const getPriceGold = async (date) => {
   const dateUpdate = $(".tabTit .fl strong").text();
   const regex = /[\d\/]/g;
   const parseDate = dateUpdate.match(regex).join("");
-  data.dateTrack = moment(new Date(parseDate)).utcOffset("+07:00");
+  const newData = parseDate.replace(/(\d+[/])(\d+[/])/, "$2$1");
+  const dateParse = new Date(newData);
+  data.dateTrack = dateParse;
   $(".tabBody table").each((i, elem) => {
     $(elem)
       .find("tr")
@@ -128,7 +130,10 @@ export const getPriceGold = async (date) => {
 };
 
 export const getPriceCurrency = async (date) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ["--no-sandbox"],
+  });
   const page = await browser.newPage();
   await page.goto(
     "https://portal.vietcombank.com.vn/Personal/TG/Pages/ty-gia.aspx?devicechannel=default",
@@ -138,7 +143,8 @@ export const getPriceCurrency = async (date) => {
   let data = {};
   const prices = [];
   const dateUpdate = $("#txttungay").attr("value");
-  data.dateTrack = new Date(dateUpdate);
+  const newData = dateUpdate.replace(/(\d+[/])(\d+[/])/, "$2$1");
+  data.dateTrack = new Date(newData);
   $("#ctl00_Content_ExrateView").each((i, elem) => {
     $(elem)
       .find("tr")
@@ -195,9 +201,13 @@ export const getPriceFood = async (type, date = getCurrentDate()) => {
 };
 
 export const getPost = async (type = "coffee", currentPage = 1) => {
+  console.log("call getPost");
   let data = [];
   if (type === "coffee") {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox"],
+    });
     const page = await browser.newPage();
     await page.goto(
       `https://giacaphe.com/thi-truong-ca-phe/tin-thi-truong-ca-phe/page/${currentPage}`,

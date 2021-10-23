@@ -10,6 +10,5 @@ mongoose
   .connect(mongoDB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000,
   })
   .catch((err) => console.log(err.reason));
